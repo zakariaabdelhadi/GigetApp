@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:badges/badges.dart';
 // import 'package:giget/screens/add_inserat.dart';
 // import 'package:giget/screens/chatsPage.dart';
@@ -21,8 +22,12 @@ late String myUsername;
 late String myUrlAvatar;
 Future main() async {
 
+
+  //Firebase.initializeApp();
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   getUserData();
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -51,7 +56,6 @@ void getUserData() {
       myId = fields['id_user'];
       myUsername = fields['name'];
       myUrlAvatar = fields['photo'];
-      print( myUrlAvatar + myUsername + myId);
     }
 
     //while retrieving numerical value from firebase, convert it to string before displaying

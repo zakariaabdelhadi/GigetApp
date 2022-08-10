@@ -57,7 +57,7 @@ class Login extends StatelessWidget {
                       decoration: BoxDecoration(
                           image: DecorationImage(
                               image: AssetImage(
-                                  'assets/images/lampe1_login.png'))),
+                                  'assets/images/lampe.png'))),
                     ),
                   ),
                   Positioned(
@@ -138,7 +138,7 @@ class Login extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       signIn();
-                    //  getUserData();
+                    // getUserData();
                     },
                     child: Container(
                       height: 50,

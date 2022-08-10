@@ -47,8 +47,8 @@ class ChatBodyWidget extends StatelessWidget {
              ListTile(
                onTap: () {
 
-                 getUserData();
-                 Timer(Duration(seconds:10),_changeScreen(context,user));
+                 //getUserData();
+                _changeScreen(context,user);
 
 
 
@@ -72,7 +72,7 @@ class ChatBodyWidget extends StatelessWidget {
   );
 
 
-  _changeScreen(BuildContext context,UserC user){
+  void _changeScreen(BuildContext context,UserC user){
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => ChatPage(user: user),
     ));

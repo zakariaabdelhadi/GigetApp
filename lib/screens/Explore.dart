@@ -4,15 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
-
 import 'getCategory.dart';
-/*
-import 'package:giget/screens/getCategory.dart';
-
-import '../data.dart';
-import '../material_demo_types.dart';
-import 'Grid.dart';
-*/
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Explore extends StatefulWidget {
   const Explore({Key? key}) : super(key: key);
@@ -326,8 +319,14 @@ Widget myGrid() {
                       ),
                     ),
                     child: FittedBox(
-                      child: Image.network(
-                          snapshot.data!.docs[index].get('photo')),
+                      // child: Image.network(
+                      //   snapshot.data!.docs[index].get('photo'),
+                      // ),
+                      child: CachedNetworkImage(imageUrl: snapshot.data!.docs[index].get('photo'),
+
+                      //  key: UniqueKey(),
+
+                      ),
                       fit: BoxFit.fill,
                     ),
                     //just for testing, will fill with image later

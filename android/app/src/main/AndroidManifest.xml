@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.lastgiget">
    <application
-        android:label="lastgiget"
+        android:label="Giget"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

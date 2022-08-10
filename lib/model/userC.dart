@@ -26,9 +26,9 @@ class UserC {
     required String lastMessageTime,
   }) =>
       UserC(
-        idUser: idUser ?? this.idUser,
-        name: name ?? this.name,
-        urlAvatar: urlAvatar ?? this.urlAvatar,
+        idUser: /*idUser ??*/ this.idUser,
+        name: /*name ??*/ this.name,
+        urlAvatar: /*urlAvatar ?? */this.urlAvatar,
         lastMessageTime: this.lastMessageTime,
       );
 
