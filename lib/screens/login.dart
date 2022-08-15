@@ -10,6 +10,10 @@ import '../api/Notification_api.dart';
 import '../main.dart';
 //import '../widget/NavBar.dart';
 
+
+
+
+
 class Login extends StatefulWidget {
   @override
   State<Login> createState() => _LoginState();
@@ -106,25 +110,26 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   Positioned(
-                    top: 100,
-                    left: 80,
+                    top: 140,
+                    left: 120,
                     child: Container(
                       margin: EdgeInsets.only(top: 50),
                       child: Center(
                         child: CircleAvatar(
                           backgroundColor: Colors.white,
-//  backgroundImage:AssetImage('assets/images/giget_logo.png'),
                           child: Container(
-                            child: Text(
-                              "GiGet",
-                              style: TextStyle(
-                                  fontFamily: 'cookie',
-                                  fontSize: 82,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            ),
+                            child:
+                              Image.asset('assets/images/logo.PNG')
+                            // Text(
+                            //   "GiGet",
+                            //   style: TextStyle(
+                            //       fontFamily: 'cookie',
+                            //       fontSize: 82,
+                            //       fontWeight: FontWeight.bold,
+                            //       color: Colors.black),
+                            // ),
                           ),
-                          radius: 100,
+                          radius: 80,
                         ),
                       ),
                     ),
@@ -183,7 +188,8 @@ class _LoginState extends State<Login> {
                   GestureDetector(
                     onTap: () {
                       signIn();
-                      // getUserData();
+
+                       getUserData();
                     },
                     child: Container(
                       height: 50,
@@ -231,4 +237,9 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+
+
+
+
+
 }

@@ -73,45 +73,48 @@ class _AddInseratState extends State<AddInserat> {
 
   void showMyDialog(BuildContext context) {
     showDialog(
-        context: context,
-        builder: (_) => Center(
-              child: SizedBox(
-                height: 100,
-                width: 300,
-                child: Container(
-                  decoration: BoxDecoration(color: Colors.white),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+      context: context,
+      builder: (_) => Scaffold(
+        body: Center(
+          child: SizedBox(
+            height: 100,
+            width: 300,
+            child: Container(
+              decoration: BoxDecoration(color: Colors.white),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.gpp_good,
-                            color: Colors.green,
-                          ),
-                          Text(
-                            "Article uploaded succefully ",
-                            style: TextStyle(fontSize: 12, color: Color(0x676767)),
-                          ),
-                        ],
+                      Icon(
+                        Icons.gpp_good,
+                        color: Colors.green,
                       ),
-                      ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              titleController.text = "";
-                              descriptionController.text = "";
-                              pickeledFile = null;
-                            });
-                            Navigator.pop(context);
-                          },
-                          child: Text("OK")),
+                      Text(
+                        "Article uploaded succefully ",
+                        style: TextStyle(fontSize: 12, color: Colors.black),
+                      ),
                     ],
                   ),
-                ),
+                  ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          titleController.text = "";
+                          descriptionController.text = "";
+                          pickeledFile = null;
+                        });
+                        Navigator.pop(context);
+                      },
+                      child: Text("OK")),
+                ],
               ),
-            ));
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Future createArticle(
@@ -138,7 +141,6 @@ class _AddInseratState extends State<AddInserat> {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-
       home: Scaffold(
         body: ListView(
           children: [
@@ -156,16 +158,13 @@ class _AddInseratState extends State<AddInserat> {
                           //  Icons.close,
                           color: Colors.black,
                           onPressed: () {
-
                             if (Navigator.canPop(context)) {
-                                 Navigator.pop(context);
-                               } else {
                               Navigator.pop(context);
-
+                            } else {
+                              Navigator.pop(context);
                             }
                           },
                         ),
-
                       )
                     ],
                   ),

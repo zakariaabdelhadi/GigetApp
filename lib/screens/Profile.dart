@@ -6,9 +6,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:lastgiget/model/userC.dart';
 
 import '../model/User.dart';
 import 'Explore.dart';
+import 'chatPage.dart';
 // import 'package:giget/screens/try.dart';
 
 //import 'package:carousel_pro/carousel_pro.dart';
@@ -29,6 +31,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   final current_user = FirebaseAuth.instance.currentUser!;
   int items_nbr = 0;
+  late UserC inhaber;
 
   List<String> list_carousel = [];
 
@@ -36,7 +39,7 @@ class _ProfileState extends State<Profile> {
   late List<DocumentSnapshot> snapshot;
   late DocumentSnapshot snap_non_list;
   CollectionReference collectionReference =
-  FirebaseFirestore.instance.collection("Inserat");
+      FirebaseFirestore.instance.collection("Inserat");
 
   final List<String> _list = [
     "Electronics",
@@ -61,7 +64,7 @@ class _ProfileState extends State<Profile> {
 
   Future<User_Model?> readUser() async {
     final docUuser =
-    FirebaseFirestore.instance.collection("Users").doc(widget.id_user);
+        FirebaseFirestore.instance.collection("Users").doc(widget.id_user);
     final snapshot = await docUuser.get();
 
     if (snapshot.exists) {
@@ -79,10 +82,18 @@ class _ProfileState extends State<Profile> {
             builder: (cotext, snapshot) {
               if (snapshot.hasData) {
                 final user = snapshot.data;
+                if (user != null) {
+                  inhaber = UserC(
+                      idUser: widget.id_user,
+                      name: user.name,
+                      urlAvatar: user.photo,
+                      lastMessageTime: DateTime.now());
+                                 }
+
                 return user == null
                     ? Center(
-                  child: Text('No user yet'),
-                )
+                        child: Text('No user yet'),
+                      )
                     : buildUser1(user);
               } else {
                 return Center(
@@ -107,185 +118,212 @@ class _ProfileState extends State<Profile> {
 
 /////////////////////////////////////////////////////////////////////////////////
   Widget buildUser1(User_Model usr) {
+
     return //Text(snapshot[0]['name']),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            //  alignment: const Alignment(-1,1),
-            children: [
-              Container(
-                height: 200,
-                width: double.infinity,
-                child: carousel(),
+        Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Stack(
+          //  alignment: const Alignment(-1,1),
+          children: [
+            Container(
+              height: 200,
+              width: double.infinity,
+              child: carousel(),
+            ),
+            Positioned(
+              top: 0,
+              left: 0,
+              child: BackButton(
+                //  Icons.close,
+                color: Colors.black,
+                onPressed: () {
+                  if (Navigator.canPop(context)) {
+                    Navigator.pop(context);
+                  } else {
+                    Navigator.pop(context);
+                  }
+                },
               ),
-              Positioned(
-                top: 0,
-                left: 0,
-                child: BackButton(
-                  //  Icons.close,
-                  color: Colors.black,
-                  onPressed: () {
-                    if (Navigator.canPop(context)) {
-                      Navigator.pop(context);
-                    } else {
-                      Navigator.pop(context);
-                    }
-                  },
+            ),
+            Positioned(
+              bottom: 0,
+              // right: ,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+
+                decoration: BoxDecoration(
+                    //color: Colors.black26,
+                    gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    Colors.black26,
+                    Colors.transparent,
+                  ],
+                )),
+                // width: double.infinity,
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 35,
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(40),
+                          child: CachedNetworkImage(imageUrl: usr.photo)),
+                    ),
+                    SizedBox(width: 10),
+                    Container(
+                      decoration: const BoxDecoration(
+                          //color: Colors.black45,
+                          ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            usr.name,
+                            style: GoogleFonts.getFont(
+                              'Inter',
+                              textStyle: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xffFFF8F8),
+                              ),
+                            ),
+                          ),
+                          Row(
+                            children: const [
+                              Icon(Icons.star, color: Colors.white),
+                              Icon(Icons.star, color: Colors.white),
+                              Icon(Icons.star, color: Colors.white),
+                              Icon(Icons.star, color: Colors.white),
+                              Icon(Icons.star_border, color: Colors.white),
+                            ],
+                          ),
+                          Text(
+                            'Berlin',
+                            style: GoogleFonts.getFont(
+                              'Inter',
+                              textStyle: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xffFFF8F8),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Positioned(
-                bottom: 0,
-                // right: ,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-
-                  decoration: BoxDecoration(
-                    //color: Colors.black26,
-                      gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: [
-                          Colors.black26,
-                          Colors.transparent,
-                        ],
-                      )),
-                  // width: double.infinity,
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 35,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(40),
-                            child: CachedNetworkImage(imageUrl: usr.photo)),
-                      ),
-                      SizedBox(width: 10),
-                      Container(
-                        decoration: const BoxDecoration(
-                          //color: Colors.black45,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              usr.name,
-                              style: GoogleFonts.getFont(
-                                'Inter', textStyle: TextStyle(fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xffFFF8F8),),),
-                            ),
+            ),
+          ],
+        ),
+        Padding(
+          padding: EdgeInsets.all(15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Text("Vinted cabinet",
+                  style: GoogleFonts.getFont(
+                    'Inter',
+                    textStyle: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xff676767),
+                    ),
+                  )),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                txt,
+                style: GoogleFonts.getFont(
+                  'Inter',
+                  textStyle: TextStyle(
+                    fontSize: 12,
+                    color: Color(0xff676767),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Text(
+                usr.name + ' is looking for',
+                style: GoogleFonts.getFont(
+                  'Inter',
+                  textStyle: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xff676767),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              SingleChildScrollView(
+                child: Column(children: <Widget>[
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          for (int i = 0; i < _list.length; i++)
                             Row(
-                              children: const [
-                                Icon(Icons.star, color: Colors.white),
-                                Icon(Icons.star, color: Colors.white),
-                                Icon(Icons.star, color: Colors.white),
-                                Icon(Icons.star, color: Colors.white),
-                                Icon(Icons.star_border, color: Colors.white),
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 1,
+                                          color: Color(0xff80E07E),
+                                          style: BorderStyle.solid),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(50))),
+                                  child: Text(
+                                    _list[i],
+                                    style: GoogleFonts.getFont(
+                                      'Inter',
+                                      textStyle: TextStyle(
+                                        fontSize: 15,
+                                        color: Color(0xff676767),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 5),
                               ],
-                            ),
-                           Text(
-                              'Berlin',
-                              style: GoogleFonts.getFont(
-                              'Inter', textStyle: TextStyle(fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xffFFF8F8),),),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                            )
+                        ]),
+                  ),
+                ]),
+              ),
+
+              //   GridListDemo(type: GridListDemoType.footer),
+              const SizedBox(
+                height: 15,
+              ),
+              Text(
+                "${usr.name} closet",
+                style: GoogleFonts.getFont(
+                  'Inter',
+                  textStyle: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xff676767),
                   ),
                 ),
               ),
             ],
           ),
-          Padding(
-            padding: EdgeInsets.all(15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                    "Vinted cabinet",
-                    style: GoogleFonts.getFont(
-                      'Inter', textStyle: TextStyle(fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff676767),),)
-
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(txt,
-                  style: GoogleFonts.getFont(
-                    'Inter', textStyle: TextStyle(fontSize: 12,
-
-                    color: Color(0xff676767),),),),
-                const SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  usr.name + ' is looking for',
-                  style: GoogleFonts.getFont(
-                    'Inter', textStyle: TextStyle(fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff676767),),),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                SingleChildScrollView(
-                  child: Column(children: <Widget>[
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            for (int i = 0; i < _list.length; i++)
-                              Row(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(5),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            width: 1,
-                                            color: Color(0xff80E07E),
-                                            style: BorderStyle.solid),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(50))),
-                                    child: Text(
-                                      _list[i],
-                                      style: GoogleFonts.getFont(
-                                        'Inter', textStyle: TextStyle(fontSize: 15,
-                                        color: Color(0xff676767),),),
-                                    ),
-                                  ),
-                                  SizedBox(width: 5),
-                                ],
-                              )
-                          ]),
-                    ),
-                  ]),
-                ),
-
-                //   GridListDemo(type: GridListDemoType.footer),
-                const SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  "${usr.name} closet",
-                  style: GoogleFonts.getFont(
-                    'Inter', textStyle: TextStyle(fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff676767),),),
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
+        ),
+      ],
+    );
 
     //  GridListDemo(type: GridListDemoType.footer),
   }
@@ -302,15 +340,19 @@ class _ProfileState extends State<Profile> {
               child: Text("Chat".toUpperCase(), style: TextStyle(fontSize: 14)),
               style: ButtonStyle(
 
-                // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
+                  // padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
                   foregroundColor:
-                  MaterialStateProperty.all<Color>(Color(0xff80E07E)),
+                      MaterialStateProperty.all<Color>(Color(0xff80E07E)),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                           side: BorderSide(color: Color(0xff80E07E))))),
               onPressed: () {
-                print("sami al hamawi");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ChatPage(user: inhaber)),
+                );
               }),
         ),
         SizedBox(width: 10),
@@ -321,17 +363,17 @@ class _ProfileState extends State<Profile> {
               child: Text("Swap".toUpperCase(), style: TextStyle(fontSize: 14)),
               style: ButtonStyle(
 
-                //     padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
+                  //     padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
                   foregroundColor:
-                  MaterialStateProperty.all<Color>(Color(0xff80E07E)),
+                      MaterialStateProperty.all<Color>(Color(0xff80E07E)),
                   backgroundColor:
-                  MaterialStateProperty.all<Color>(Colors.black),
+                      MaterialStateProperty.all<Color>(Colors.black),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                           side: BorderSide(color: Color(0xff80E07E))))),
               onPressed: () {
-                print("kebsssa kabba kaffee");
+                _showOverlay(context);
               }),
         )
       ]),
@@ -353,7 +395,7 @@ class _ProfileState extends State<Profile> {
             physics: ScrollPhysics(),
             itemCount: snapshot.data!.docs.length,
             gridDelegate:
-            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
             itemBuilder: (BuildContext context, int index) {
               list_carousel
                   .add(snapshot.data!.docs[index].get('photo').toString());
@@ -375,7 +417,7 @@ class _ProfileState extends State<Profile> {
                         color: Colors.transparent,
                         shape: const RoundedRectangleBorder(
                           borderRadius:
-                          BorderRadius.vertical(bottom: Radius.circular(4)),
+                              BorderRadius.vertical(bottom: Radius.circular(4)),
                         ),
                         clipBehavior: Clip.antiAlias,
                         child: Container(
@@ -394,13 +436,16 @@ class _ProfileState extends State<Profile> {
                             children: [
                               Expanded(
                                   child: Text(
-                                    snapshot.data!.docs[index].get('name'),
-                                    style: GoogleFonts.getFont(
-                                      'Inter', textStyle: TextStyle(fontSize: 11,
-                               //       fontWeight: FontWeight.bold,
-                                      color: Color(0xffFFF8F8),),),
-                                  )),
-
+                                snapshot.data!.docs[index].get('name'),
+                                style: GoogleFonts.getFont(
+                                  'Inter',
+                                  textStyle: TextStyle(
+                                    fontSize: 11,
+                                    //       fontWeight: FontWeight.bold,
+                                    color: Color(0xffFFF8F8),
+                                  ),
+                                ),
+                              )),
                             ],
                           ),
                         ),
@@ -458,10 +503,7 @@ class _ProfileState extends State<Profile> {
           child: Builder(
             builder: (BuildContext context) {
               return Container(
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width,
+                width: MediaQuery.of(context).size.width,
                 // padding: EdgeInsets.symmetric(horizontal: 5),
                 // margin: EdgeInsets.symmetric(horizontal: 0),
                 // decoration: BoxDecoration(
@@ -508,23 +550,27 @@ class _ProfileState extends State<Profile> {
                   backgroundColor: Colors.white30,
                   child: Center(
                     child: IconButton(
-
                       highlightColor: Colors.black,
                       onPressed: () {
                         overlay1.remove();
                       },
-                      icon: Icon(Icons.close, color: Colors.white, size: 35,),
+                      icon: Icon(
+                        Icons.close,
+                        color: Colors.white,
+                        size: 35,
+                      ),
                     ),
                   ),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 getGridById(current_user.uid),
               ],
             ),
           ),
         ),
       );
-
     });
 
     overlayState?.insertAll([overlay1]);

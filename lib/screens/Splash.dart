@@ -37,7 +37,7 @@ class _SplashViewState extends State<SplashView> {
   void initState() {
     super.initState();
     _startDelay();
-    getUserData();
+    //getUserData();
 
    // initialiseLocalNotif();
 

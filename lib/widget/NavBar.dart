@@ -100,7 +100,7 @@ class _NavBarState extends State<NavBar> {
                            SplashView.counter_notif.toString(),
                           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                         ),
-                        badgeColor: Colors.white,
+                        badgeColor: Colors.red,
                       padding: EdgeInsets.all(8),
                       child: IconButton(
                         icon: Icon(

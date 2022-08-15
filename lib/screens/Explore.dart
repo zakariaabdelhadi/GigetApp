@@ -269,21 +269,29 @@ class _Explore_bodyState extends State<Explore_body> {
 }
 
 Widget _insertNotif() {
-  return Badge(
-    position: BadgePosition(bottom: 25, start: 25),
-    badgeContent: Text(
-      (2 > 8) ? "2" : "",
-      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-    ),
-    badgeColor: Colors.red,
-    child: IconButton(
+  return IconButton(
       icon: Icon(
         Icons.notifications_none,
         color: Colors.black,
       ),
       onPressed: () {},
-    ),
-  );
+    );
+
+  //   Badge(
+  //   position: BadgePosition(bottom: 25, start: 25),
+  //   badgeContent: Text(
+  //     (2 > 8) ? "2" : "",
+  //     style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+  //   ),
+  //   badgeColor: Colors.red,
+  //   child: IconButton(
+  //     icon: Icon(
+  //       Icons.notifications_none,
+  //       color: Colors.black,
+  //     ),
+  //     onPressed: () {},
+  //   ),
+  // );
 }
 
 Widget myGrid() {
