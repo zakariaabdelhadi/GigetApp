@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lastgiget/screens/Explore.dart';
 
-
+import '../api/Notification_api.dart';
 import '../model/User.dart';
 
 class Expose extends StatefulWidget {
@@ -14,7 +16,7 @@ class Expose extends StatefulWidget {
 
 class _ExposeState extends State<Expose> {
   final current_user = FirebaseAuth.instance.currentUser!;
-
+  int items_nbr = 0;
   final List<String> _list = [
     "Electronics",
     "Furniture",
@@ -47,7 +49,9 @@ class _ExposeState extends State<Expose> {
           } else {
             return Center(
               child: Container(
-                child: CircularProgressIndicator(color: Color(0xFF00F0FF),),
+                child: CircularProgressIndicator(
+                  color: Color(0xFF00F0FF),
+                ),
               ),
             );
           }
@@ -79,20 +83,26 @@ class _ExposeState extends State<Expose> {
                   ),
                 ],
               ),
-      CircleAvatar(
 
-        backgroundImage:NetworkImage(usr.photo),
-        radius: 35,
-      ),
+
+              CircleAvatar(
+                radius: 50,
+                child: ClipRRect(
+
+                    borderRadius: BorderRadius.circular(60),
+                    child: CachedNetworkImage(
+                        imageUrl:usr.photo
+                    )),
+              ),
               SizedBox(
                 height: 15,
               ),
               Text(
                 usr.name,
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 15,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+
                 ),
               ),
               Row(
@@ -108,9 +118,9 @@ class _ExposeState extends State<Expose> {
               const Text(
                 'Berlin',
                 style: TextStyle(
-                  fontSize: 10,
+                  fontSize: 12,
                   //fontWeight: FontWeight.bold,
-                  color: Colors.black,
+
                 ),
               ),
               SizedBox(
@@ -125,7 +135,7 @@ class _ExposeState extends State<Expose> {
               children: [
                 Text(
                   "I am looking for",
-                  style: TextStyle(color: Colors.black, fontSize: 16),
+                  style: TextStyle(fontSize: 16),
                 ),
                 SizedBox(
                   height: 10,
@@ -165,9 +175,106 @@ class _ExposeState extends State<Expose> {
           SizedBox(
             height: 20,
           ),
-        //  GridListDemo(type: GridListDemoType.footer),
+          //  GridListDemo(type: GridListDemoType.footer),
+         getGridById(current_user.uid)
         ],
       ),
     );
   }
+
+  Widget getGridById(String id) {
+    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+      // inside the <> you enter the type of your stream
+      stream: FirebaseFirestore.instance
+          .collection("Inserat")
+          .where('id_user', isEqualTo: id)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          items_nbr = snapshot.data!.docs.length;
+          return GridView.builder(
+            shrinkWrap: true,
+            physics: ScrollPhysics(),
+            itemCount: snapshot.data!.docs.length,
+            gridDelegate:
+            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            itemBuilder: (BuildContext context, int index) {
+
+
+              return new Card(
+                elevation: 20,
+                child: Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(snapshot.data!.docs[index]
+                              .get('name')
+                              .toString())));
+                    },
+                    child: new GridTile(
+                      footer: Material(
+                        color: Colors.transparent,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius:
+                          BorderRadius.vertical(bottom: Radius.circular(4)),
+                        ),
+                        clipBehavior: Clip.antiAlias,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [
+                                Colors.black,
+                                Colors.transparent,
+                              ],
+                            ),
+                          ),
+                          padding: EdgeInsets.all( 16),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  child: Text(
+                                    snapshot.data!.docs[index].get('name'),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 11, ),
+                                  )),
+
+                            ],
+                          ),
+                        )
+                      ),
+                      child: FittedBox(
+                        //    child: Image.network(snapshot.data!.docs[index].get('photo')),
+                        child: CachedNetworkImage(
+                          imageUrl: snapshot.data!.docs[index].get('photo'),
+                        ),
+
+                        fit: BoxFit.fill,
+                      ),
+                      // child: ClipRRect(
+                      //     borderRadius: BorderRadius.circular(40),
+                      //     child: CachedNetworkImage(
+                      //         imageUrl:
+                      //             snapshot.data!.docs[index].get('photo'))),
+                      //just for testing, will fill with image later
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        }
+
+        if (snapshot.hasError) {
+          return const Text('Error');
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
+  }
+
 }

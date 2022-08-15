@@ -1,14 +1,62 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lastgiget/screens/Splash.dart';
 import 'package:lastgiget/widget/NavBar.dart';
 
+import '../api/Notification_api.dart';
 import '../main.dart';
 //import '../widget/NavBar.dart';
 
-class Login extends StatelessWidget {
-  final mailcontrol = TextEditingController();
-  final passwordcontrol = TextEditingController();
+class Login extends StatefulWidget {
+  @override
+  State<Login> createState() => _LoginState();
+}
 
+class _LoginState extends State<Login> {
+  final mailcontrol = TextEditingController();
+
+  final passwordcontrol = TextEditingController();
+  late StreamSubscription<QuerySnapshot> sub;
+  late List<DocumentSnapshot> snap;
+
+  late CollectionReference collect =
+  FirebaseFirestore.instance.collection('chats/${myId}/messages');
+
+
+@override
+  void initState() {
+  listenStream();
+
+  super.initState();
+  }
+  void listenStream() {
+    sub = collect.snapshots().listen((event) {
+      snap = event.docs;
+      for(int i=1;i<snap.length;i++){
+
+        Duration diff=DateTime.now().difference(snap[i]['createdAt'].toDate());
+
+        if (diff.inSeconds < 10 ){
+          setState(() {
+            SplashView.counter_notif++;
+
+          });
+          print('------------------zkkk------------------'+diff.inSeconds.toString());
+           NotificationService().Display(snap[i]['name'].toString(),snap[i]['message'].length >15 ? snap[i]['message'].substring(1,15)+' ...':snap[i]['message'],snap[i]['photo'],snap[i]['photo']);
+
+
+
+        }
+
+      }
+      // print(snap['message']);
+      // print('rani f listening -----------------------------------');
+    });
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,9 +91,7 @@ class Login extends StatelessWidget {
           children: <Widget>[
             Container(
               height: 350,
-              decoration: BoxDecoration(
-
-                  ),
+              decoration: BoxDecoration(),
               child: Stack(
                 children: <Widget>[
                   Positioned(
@@ -56,8 +102,7 @@ class Login extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: AssetImage(
-                                  'assets/images/lampe.png'))),
+                              image: AssetImage('assets/images/lampe.png'))),
                     ),
                   ),
                   Positioned(
@@ -138,7 +183,7 @@ class Login extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       signIn();
-                    // getUserData();
+                      // getUserData();
                     },
                     child: Container(
                       height: 50,

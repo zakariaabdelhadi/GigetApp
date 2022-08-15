@@ -93,7 +93,7 @@ class _AddInseratState extends State<AddInserat> {
                           ),
                           Text(
                             "Article uploaded succefully ",
-                            style: TextStyle(fontSize: 12, color: Colors.black),
+                            style: TextStyle(fontSize: 12, color: Color(0x676767)),
                           ),
                         ],
                       ),
@@ -137,13 +137,15 @@ class _AddInseratState extends State<AddInserat> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+
       home: Scaffold(
         body: ListView(
           children: [
             Column(
               children: [
                 SizedBox(
-                  height: 20,
+                  height: 5,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -163,13 +165,7 @@ class _AddInseratState extends State<AddInserat> {
                             }
                           },
                         ),
-                        // onTap: () {
-                        //   // if (Navigator.canPop(context)) {
-                        //   //   Navigator.pop(context);
-                        //   // } else {
-                        //
-                        //  // }
-                        // }
+
                       )
                     ],
                   ),

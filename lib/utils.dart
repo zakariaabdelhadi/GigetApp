@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 class Utils {
   static StreamTransformer<QuerySnapshot<Map<String, dynamic>>, List<T>> transformer<T>(
@@ -28,5 +31,19 @@ class Utils {
     if (date == null) return null;
 
     return date.toUtc();
+  }
+
+
+ static Future<String> downloadFile(String url,String fileName) async {
+final dir = await getApplicationDocumentsDirectory();
+final filePath = '${dir.path}/$fileName';
+final responce = await http.get(Uri.parse(url));
+final file = File(filePath);
+
+await file.writeAsBytes(responce.bodyBytes);
+return filePath;
+
+
+
   }
 }

@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:lastgiget/screens/Profile.dart';
+import 'package:lastgiget/widget/MyGridTile.dart';
 import 'getCategory.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -18,6 +20,7 @@ class _ExploreState extends State<Explore> {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
+    bool loved = false;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -33,21 +36,23 @@ class _ExploreState extends State<Explore> {
               "GiGet",
               style: TextStyle(
                   fontFamily: 'cookie',
-                  fontSize: 48,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF00F0FF)),
+                  fontSize: 50,
+                  //fontWeight: FontWeight.bold,
+                 color: Color(0xFF00F0FF)
+
+        ),
             ),
           ),
           actions: <Widget>[
             // Image.asset("assets/images/komode1.png"),
 
-            IconButton(
-              icon: Icon(
-                Icons.add_circle_outline,
-                color: Colors.black,
-              ),
-              onPressed: () {},
-            ),
+            // IconButton(
+            //   icon: Icon(
+            //     Icons.add_circle_outline,
+            //     color: Colors.black,
+            //   ),
+            //   onPressed: () {},
+            // ),
             _insertNotif(),
             IconButton(
               icon: Icon(
@@ -76,6 +81,8 @@ class Explore_body extends StatefulWidget {
 }
 
 class _Explore_bodyState extends State<Explore_body> {
+  bool loved = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,7 +109,7 @@ class _Explore_bodyState extends State<Explore_body> {
                         decoration: InputDecoration(
                           hintText: 'What are you looking for ?',
                           hintStyle:
-                              TextStyle(fontSize: 14, color: Colors.white),
+                              TextStyle(fontSize: 15, color: Colors.white),
                         ),
                       ),
                     ),
@@ -131,7 +138,7 @@ class _Explore_bodyState extends State<Explore_body> {
                     children: [
                       CircleAvatar(
                         maxRadius: 25,
-                        backgroundColor: Colors.black12,
+                        backgroundColor: Colors.white,
                         child: Container(
                           //  height: 40,
                           child: IconButton(
@@ -153,14 +160,14 @@ class _Explore_bodyState extends State<Explore_body> {
                           ),
                         ),
                       ),
-                      Text("Games"),
+                      Text("Games",style: TextStyle(fontSize: 12),),
                     ],
                   ),
                   Column(
                     children: [
                       CircleAvatar(
                         maxRadius: 25,
-                        backgroundColor: Colors.black12,
+                        backgroundColor: Colors.white,
                         child: Container(
                           //  height: 40,
                           child: IconButton(
@@ -181,14 +188,14 @@ class _Explore_bodyState extends State<Explore_body> {
                           ),
                         ),
                       ),
-                      Text("Electronics"),
+                      Text("Electronics",style: TextStyle(fontSize: 12)),
                     ],
                   ),
                   Column(
                     children: [
                       CircleAvatar(
                         maxRadius: 25,
-                        backgroundColor: Colors.black12,
+                        backgroundColor: Colors.white,
                         child: Container(
                           // height: 40,
                           child: IconButton(
@@ -209,7 +216,7 @@ class _Explore_bodyState extends State<Explore_body> {
                           ),
                         ),
                       ),
-                      Text("Textile"),
+                      Text("Textile",style: TextStyle(fontSize: 12)),
                     ],
                   ),
                   Column(
@@ -223,7 +230,7 @@ class _Explore_bodyState extends State<Explore_body> {
                       // ),
                       CircleAvatar(
                         maxRadius: 25,
-                        backgroundColor: Colors.black12,
+                        backgroundColor: Colors.white,
                         child: Container(
                           //  height: 40,
                           child: IconButton(
@@ -243,7 +250,7 @@ class _Explore_bodyState extends State<Explore_body> {
                           ),
                         ),
                       ),
-                      Text("Books"),
+                      Text("Books",style: TextStyle(fontSize: 12)),
                     ],
                   ),
                 ],
@@ -280,6 +287,8 @@ Widget _insertNotif() {
 }
 
 Widget myGrid() {
+  bool loved = false;
+
   return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
     // inside the <> you enter the type of your stream
     stream: FirebaseFirestore.instance.collection("Inserat").snapshots(),
@@ -292,16 +301,21 @@ Widget myGrid() {
           gridDelegate:
               SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
           itemBuilder: (BuildContext context, int index) {
-            return new Card(
+            return Card(
               elevation: 20,
               child: Padding(
                 padding: const EdgeInsets.all(3.0),
                 child: GestureDetector(
                   onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(snapshot.data!.docs[index]
-                            .get('name')
-                            .toString())));
+                    print(snapshot.data!.docs[index].id.toString()+'***************************************************************');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Profile(
+                              id_user: snapshot.data!.docs[index]
+                                  .get('id_user')
+                                  .toString())),
+                    );
                   },
                   child: new GridTile(
                     footer: Material(
@@ -311,25 +325,19 @@ Widget myGrid() {
                             BorderRadius.vertical(bottom: Radius.circular(4)),
                       ),
                       clipBehavior: Clip.antiAlias,
-                      child: GridTileBar(
-                        backgroundColor: Colors.black26,
-                        title: Text(snapshot.data!.docs[index].get('name')),
-
-                        //  subtitle:Text("tiri berk"),
-                      ),
+                      child: MyGridTile(name: snapshot.data!.docs[index].get('name'),id_inserat: snapshot.data!.docs[index].id.toString(),)
                     ),
                     child: FittedBox(
                       // child: Image.network(
                       //   snapshot.data!.docs[index].get('photo'),
                       // ),
-                      child: CachedNetworkImage(imageUrl: snapshot.data!.docs[index].get('photo'),
+                      child: CachedNetworkImage(
+                        imageUrl: snapshot.data!.docs[index].get('photo'),
 
-                      //  key: UniqueKey(),
-
+                        //  key: UniqueKey(),
                       ),
                       fit: BoxFit.fill,
                     ),
-                    //just for testing, will fill with image later
                   ),
                 ),
               ),

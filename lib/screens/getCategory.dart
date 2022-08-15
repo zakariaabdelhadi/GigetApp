@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -91,16 +92,40 @@ class _getCategoryState extends State<getCategory> {
                               BorderRadius.vertical(bottom: Radius.circular(4)),
                         ),
                         clipBehavior: Clip.antiAlias,
-                        child: GridTileBar(
-                          backgroundColor: Colors.black26,
-                          title: Text(snapshot.data!.docs[index].get('name')),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [
+                                Colors.black,
+                                Colors.transparent,
+                              ],
+                            ),
+                          ),
+                          padding: EdgeInsets.all( 8),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  child: Text(
+                                    snapshot.data!.docs[index].get('name'),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14, fontWeight: FontWeight.bold),
+                                  )),
 
-                          //  subtitle:Text("tiri berk"),
+                            ],
+                          ),
                         ),
                       ),
                       child: FittedBox(
-                        child: Image.network(
-                            snapshot.data!.docs[index].get('photo')),
+                        // child:
+                        // Image.network(
+                        //     snapshot.data!.docs[index].get('photo')),
+                        child: CachedNetworkImage(
+                          imageUrl: snapshot.data!.docs[index].get('photo'),
+                        ),
+
                         fit: BoxFit.fill,
                       ),
                       //just for testing, will fill with image later

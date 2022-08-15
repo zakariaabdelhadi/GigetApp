@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -55,10 +56,20 @@ class ChatBodyWidget extends StatelessWidget {
 
 
                },
-               leading: CircleAvatar(
+               leading:
+               CircleAvatar(
                  radius: 25,
-                 backgroundImage: NetworkImage(user.urlAvatar),
+                 child: ClipRRect(
+
+                     borderRadius: BorderRadius.circular(50),
+                     child: CachedNetworkImage(
+                         imageUrl:user.urlAvatar
+                     )),
                ),
+               // CircleAvatar(
+               //   radius: 25,
+               //   backgroundImage: NetworkImage(user.urlAvatar),
+               // ),
                title: Text(user.name),
              ),
              Divider(color: Colors.black45,thickness: 0.2,)

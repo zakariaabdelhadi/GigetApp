@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../model/Message.dart';
@@ -21,7 +22,15 @@ class MessageWidget extends StatelessWidget {
       children: <Widget>[
         if (!isMe)
           CircleAvatar(
-              radius: 18, backgroundImage: NetworkImage(message.urlAvatar)),
+            radius: 18,
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: CachedNetworkImage(imageUrl: message.urlAvatar)),
+          ),
+        // CircleAvatar(
+        //   radius: 18,
+        //   backgroundImage: NetworkImage(message.urlAvatar),
+        // ),
         Container(
           padding: EdgeInsets.all(8),
           margin: EdgeInsets.all(8),
@@ -42,8 +51,8 @@ class MessageWidget extends StatelessWidget {
     String hour = message.createdAt.hour.toString();
     String minute = message.createdAt.minute.toString();
 
-    if (minute == "0") {
-      minute = "00";
+    if (minute.length == 1) {
+      minute = "0" + minute;
     }
 
     return Column(

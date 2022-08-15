@@ -37,6 +37,8 @@ dependencies:
     #sa_v1_migration: ^1.1.2
 
 
+  google_fonts: ^3.0.1
+
   simple_animations: ^4.2.0
   rxdart: ^0.27.5
 
@@ -46,6 +48,9 @@ dependencies:
   firebase_storage: ^10.3.3
   cached_network_image: ^3.2.1
   flutter_local_notifications: ^9.7.0
+  path_provider: ^2.0.11
+  http: ^0.13.5
+
 
 
 

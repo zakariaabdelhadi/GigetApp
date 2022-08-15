@@ -18,9 +18,22 @@ class ChatHeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
     width: double.infinity,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    child: Row(
+     mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        BackButton(
+          //  Icons.close,
+          color: Colors.white,
+          onPressed: () {
+
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            } else {
+              Navigator.pop(context);
+
+            }
+          },
+        ),
         Container(
           width: MediaQuery.of(context).size.width * 0.75,
           child: const Text(
@@ -34,7 +47,7 @@ class ChatHeaderWidget extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 12),
+
         // Container(
         //   height: 60,
         //   child: ListView.builder(

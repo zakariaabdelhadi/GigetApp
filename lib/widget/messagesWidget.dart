@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../api/Notification_api.dart';
 import '../api/firebase_api.dart';
 import '../main.dart';
 import '../model/Message.dart';
@@ -38,6 +39,18 @@ class MessagesWidget extends StatelessWidget {
               itemCount: messages.length,
               itemBuilder: (context, index) {
                 final message = messages[index];
+
+                Duration diff=DateTime.now().difference(message.createdAt);
+
+                if (diff.inSeconds < 3 && message.idUser != myId){
+                  print('------------------zkkk----------------------------------------'+diff.inSeconds.toString());
+                   NotificationService().Display(message.username.toString(),message.message.length >15 ? message.message.substring(1,15)+' ...':message.message,message.urlAvatar,message.urlAvatar);
+
+
+
+                }
+
+
 
                 return MessageWidget(
                   message: message,
