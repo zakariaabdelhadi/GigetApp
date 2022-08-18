@@ -15,19 +15,14 @@ import '../api/GradientApi.dart';
 import 'chatsPage.dart';
 
 class Explore extends StatefulWidget {
-  const Explore({Key? key,required this.update}) : super(key: key);
-  final    ValueChanged<int> update;
-
-
+  const Explore({Key? key, required this.update}) : super(key: key);
+  final ValueChanged<int> update;
 
   @override
   State<Explore> createState() => _ExploreState();
 }
 
 class _ExploreState extends State<Explore> {
-
-
-
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
@@ -37,59 +32,58 @@ class _ExploreState extends State<Explore> {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          title: Container(
-            alignment: Alignment.centerLeft,
-            // height: 50,
-            //  width: 300,
-            child: GradientText(
-              "GiGet",
-              style: TextStyle(
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            title: Container(
+              alignment: Alignment.centerLeft,
+              // height: 50,
+              //  width: 300,
+              child: GradientText(
+                "GiGet",
+                style: TextStyle(
                   fontFamily: 'cookie',
                   fontSize: 50,
                   //fontWeight: FontWeight.bold,
-                  ),
-              colors: [
-                Color(0xff5FA95E),
-                Color(0xFF00F0FF),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            // Image.asset("assets/images/komode1.png"),
-
-            // IconButton(
-            //   icon: Icon(
-            //     Icons.add_circle_outline,
-            //     color: Colors.black,
-            //   ),
-            //   onPressed: () {},
-            // ),
-            _insertNotif(),
-            IconButton(
-              icon: Icon(
-                Icons.logout,
-                color: Colors.black,
+                ),
+                colors: [
+                  Color(0xff5FA95E),
+                  Color(0xFF00F0FF),
+                ],
               ),
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-              },
             ),
-          ],
-        ),
-        //   body: HomePage(),
-        body: Explore_body(update:widget.update)
-        //body:  GridListDemo(type: GridListDemoType.footer),
-      ),
+            actions: <Widget>[
+              // Image.asset("assets/images/komode1.png"),
+
+              // IconButton(
+              //   icon: Icon(
+              //     Icons.add_circle_outline,
+              //     color: Colors.black,
+              //   ),
+              //   onPressed: () {},
+              // ),
+              _insertNotif(),
+              IconButton(
+                icon: Icon(
+                  Icons.logout,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                },
+              ),
+            ],
+          ),
+          //   body: HomePage(),
+          body: Explore_body(update: widget.update)
+          //body:  GridListDemo(type: GridListDemoType.footer),
+          ),
     );
   }
 }
 
 class Explore_body extends StatefulWidget {
-  const Explore_body({Key? key,required this.update}) : super(key: key);
-  final    ValueChanged<int> update;
-
+  const Explore_body({Key? key, required this.update}) : super(key: key);
+  final ValueChanged<int> update;
 
   @override
   State<Explore_body> createState() => _Explore_bodyState();
@@ -100,24 +94,25 @@ class _Explore_bodyState extends State<Explore_body> {
   bool electronics = false;
   bool books = false;
   bool textile = false;
+
   String activPage = 'all';
   bool loved = false;
+  TextEditingController searchControl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onHorizontalDragEnd: (DragEndDetails details) {
         if (details.primaryVelocity! > 0) {
-
         } else if (details.primaryVelocity! < 0) {
-
           widget.update(1);
-
 
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ChatsPage(update:  widget.update,)),
+            MaterialPageRoute(
+                builder: (context) => ChatsPage(
+                      update: widget.update,
+                    )),
           );
         }
       },
@@ -140,6 +135,7 @@ class _Explore_bodyState extends State<Explore_body> {
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         child: TextFormField(
+                          controller: searchControl,
                           style: TextStyle(color: Colors.white),
                           cursorColor: Colors.white,
                           decoration: InputDecoration(
@@ -157,7 +153,19 @@ class _Explore_bodyState extends State<Explore_body> {
                           color: Color(0xFF00F0FF),
                         ),
                         onPressed: () {
-                          print("search icon clicked !");
+                          if(searchControl.text != ''){
+                            setState(() {
+                              games = false;
+                              electronics = false;
+                              books = false;
+                              textile = false;
+                              activPage = 'search';
+                            });
+                            searchControl.clear();
+
+
+                          }
+
                         },
                       ),
                     ),
@@ -265,7 +273,8 @@ class _Explore_bodyState extends State<Explore_body> {
                               iconSize: 40,
                               icon: ImageIcon(
                                 AssetImage("assets/images/Textile.png"),
-                                color: textile ? Color(0xFF00F0FF) : Colors.black,
+                                color:
+                                    textile ? Color(0xFF00F0FF) : Colors.black,
                                 size: 40,
                               ),
                               onPressed: () {
@@ -344,18 +353,19 @@ class _Explore_bodyState extends State<Explore_body> {
               ),
               //   GridListDemo(type: GridListDemoType.footer),
 
-              // if (games == true ||
-              //     electronics == true ||
-              //     books == true ||
-              //     textile == true)
-              //  myGridCategory(),
-              //
-              // if (games == false &&
-              //     electronics == false &&
-              //     books == false &&
-              //     textile == false)
-              //   myGrid(),
+              if (games == true ||
+                  electronics == true ||
+                  books == true ||
+                  textile == true)
+                myGridCategory(),
 
+              if (games == false &&
+                  electronics == false &&
+                  books == false &&
+                  textile == false &&
+                  activPage != 'search')
+                myGrid(),
+              if (activPage == 'search') SearchGrid(searchControl.text),
             ],
           ),
         ]),
@@ -372,6 +382,47 @@ class _Explore_bodyState extends State<Explore_body> {
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          if (snapshot.data!.docs.length == 0) {
+            return Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 80,
+                  ),
+
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 40),
+                    child: Text(textAlign: TextAlign.center,
+                      ' sorry at the moment there is no object in the Category ${activPage}. Come and check later',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(height: 60,width: 60,child: 
+                    Image.asset('assets/images/sorry.png'),),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  //  Icon(Icons.)
+                  GestureDetector(
+                    child: Text(textAlign: TextAlign.center,'click to show all articles',style: TextStyle(color: Colors.blueAccent,fontSize: 12),),
+                    onTap: () {
+                      setState(() {
+                        games = false;
+                        electronics = false;
+                        books = false;
+                        textile = false;
+                        activPage = 'all';
+                      });
+                    },
+                  )
+                ],
+              ),
+            );
+          }
           return GridView.builder(
             shrinkWrap: true,
             physics: ScrollPhysics(),
@@ -392,20 +443,18 @@ class _Explore_bodyState extends State<Explore_body> {
                     },
                     child: new GridTile(
                       footer: Material(
-                        color: Colors.transparent,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(bottom: Radius.circular(4)),
-                        ),
-                        clipBehavior: Clip.antiAlias,
-                        child:
-                        MyGridTile(
-                          photo: snapshot.data!.docs[index].get('photo'),
-                          name: snapshot.data!.docs[index].get('name'),
-                          id_inserat: snapshot.data!.docs[index].id.toString(),
-                        )
-
-                      ),
+                          color: Colors.transparent,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                                bottom: Radius.circular(4)),
+                          ),
+                          clipBehavior: Clip.antiAlias,
+                          child: MyGridTile(
+                            photo: snapshot.data!.docs[index].get('photo'),
+                            name: snapshot.data!.docs[index].get('name'),
+                            id_inserat:
+                                snapshot.data!.docs[index].id.toString(),
+                          )),
                       child: FittedBox(
                         // child:
                         // Image.network(
@@ -429,6 +478,128 @@ class _Explore_bodyState extends State<Explore_body> {
           return const Text('Error');
         } else {
           return const CircularProgressIndicator();
+        }
+      },
+    );
+  }
+
+  Widget SearchGrid(String item) {
+    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+      // inside the <> you enter the type of your stream
+      stream: FirebaseFirestore.instance
+          .collection("Inserat")
+          .where('name', isEqualTo: item)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data!.docs.length == 0) {
+            return Center(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 90,
+                  ),
+
+                  Text(
+                      'sorry no articles currently matching your search',textAlign: TextAlign.center,),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(height: 60,width: 60,child:
+                  Image.asset('assets/images/sorry.png'),),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  //  Icon(Icons.)
+                  GestureDetector(
+                    child: Text('click to show all articles',textAlign: TextAlign.center,style: TextStyle(color: Colors.blue),),
+                    onTap: () {
+                      setState(() {
+                        activPage = 'all';
+                      });
+                    },
+                  )
+                ],
+              ),
+            );
+          } else {
+            print('dkhel comme memme ------------------');
+            return GridView.builder(
+              shrinkWrap: true,
+              physics: ScrollPhysics(),
+              itemCount: snapshot.data!.docs.length,
+              gridDelegate:
+                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+              itemBuilder: (BuildContext context, int index) {
+                return new Card(
+                  elevation: 20,
+                  child: Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(snapshot.data!.docs[index]
+                                .get('name')
+                                .toString())));
+                      },
+                      child: new GridTile(
+                        footer: Material(
+                            color: Colors.transparent,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  bottom: Radius.circular(4)),
+                            ),
+                            clipBehavior: Clip.antiAlias,
+                            child: MyGridTile(
+                              photo: snapshot.data!.docs[index].get('photo'),
+                              name: snapshot.data!.docs[index].get('name'),
+                              id_inserat:
+                                  snapshot.data!.docs[index].id.toString(),
+                            )),
+                        child: FittedBox(
+                          // child:
+                          // Image.network(
+                          //     snapshot.data!.docs[index].get('photo')),
+                          child: CachedNetworkImage(
+                            imageUrl: snapshot.data!.docs[index].get('photo'),
+                          ),
+
+                          fit: BoxFit.fill,
+                        ),
+                        //just for testing, will fill with image later
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+          }
+        }
+
+        if (snapshot.hasError) {
+          return const Text('Error');
+        } else {
+          print(
+              'rahou hna ydour __________________________________________________-');
+          return Center(
+            child: Column(
+              children: [
+                Text('sorry keine Artikel zurzeit, die deiner Suche zutreffen'),
+                SizedBox(
+                  height: 30,
+                ),
+                //  Icon(Icons.)
+                GestureDetector(
+                  child: Text('Klicken Sie, um alle Artikel anzuzeigen'),
+                  onTap: () {
+                    setState(() {
+                      activPage = 'all';
+                    });
+                  },
+                )
+              ],
+            ),
+          );
         }
       },
     );

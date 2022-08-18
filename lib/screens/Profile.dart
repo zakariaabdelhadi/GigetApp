@@ -401,6 +401,50 @@ class _ProfileState extends State<Profile> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           items_nbr = snapshot.data!.docs.length;
+          if(snapshot.data!.docs.length== 0){
+            return  Center(
+              child: Column(
+                children: [
+                  SizedBox(height: 70,),
+
+                  if(id == current_user.uid )  Column(
+                    children: [
+                      Text('Your closet is empty',style: TextStyle(color: Colors.white,fontSize: 16),),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      CircleAvatar(
+                        radius: 35,
+                        backgroundColor: Colors.white60,
+                        child: SizedBox(height: 60,width: 60,child:
+                        Image.asset('assets/images/sorry.png'),),
+                      ),
+                    ],
+                  ),
+
+
+                  if(id != current_user.uid ) Column(
+                    children: [
+                      Text('${inhaber.name} has no articles online right now'),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(height: 60,width: 60,child:
+                      Image.asset('assets/images/sorry.png'),),
+                    ],
+                  ),
+
+
+
+                  //  Icon(Icons.)
+
+                ],
+              ),
+            );
+
+
+
+          }
           return GridView.builder(
             shrinkWrap: true,
             physics: ScrollPhysics(),

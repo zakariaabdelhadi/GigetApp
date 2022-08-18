@@ -181,6 +181,34 @@ class _NewMessageWidgetState extends State<NewMessageWidget> {
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          if(snapshot.data!.docs.length== 0){
+            return  Center(
+              child: Column(
+                children: [
+                  SizedBox(height: 90,),
+                  Column(
+                    children: [
+                      Text('Your closet is empty',style: TextStyle(color: Colors.white,fontSize: 16),),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      CircleAvatar(
+                        radius: 35,
+                        backgroundColor: Colors.white60,
+                        child: SizedBox(height: 60,width: 60,child:
+                        Image.asset('assets/images/sorry.png'),),
+                      ),
+                    ],
+                  ),
+                  //  Icon(Icons.)
+
+                ],
+              ),
+            );
+
+
+
+          }
           return GridView.builder(
             shrinkWrap: true,
             physics: ScrollPhysics(),

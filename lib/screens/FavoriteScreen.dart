@@ -88,6 +88,35 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+
+
+    if (snapshot.data!.docs.length == 0) {
+    return Center(
+    child: Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+    SizedBox(
+    height: 80,
+    ),
+
+    Container(
+    margin: EdgeInsets.symmetric(horizontal: 40),
+    child: Text(textAlign: TextAlign.center,
+    ' You do not have favorite articles yet',
+    style: TextStyle(fontSize: 16),
+    ),
+    ),
+    SizedBox(
+    height: 20,
+    ),
+    SizedBox(height: 60,width: 60,child:
+    Image.asset('assets/images/sorry.png'),),
+
+    //  Icon(Icons.)
+
+    ],
+    ),
+    );}
           // final double itemHeight = (MediaQuery.of(context).size.height - kToolbarHeight - 24) / 2;
           // final double itemWidth = MediaQuery.of(context).size.width / 2;
           return GridView.builder(
