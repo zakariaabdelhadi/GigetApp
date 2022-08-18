@@ -41,15 +41,15 @@ class MessagesWidget extends StatelessWidget {
               itemBuilder: (context, index) {
                 final message = messages[index];
 
-                Duration diff=DateTime.now().difference(message.createdAt);
+                // Duration diff=DateTime.now().difference(message.createdAt);
+                //
+                // if (diff.inSeconds < 3 && message.idUser != myId){
+                //   print('------------------zkkk----------------------------------------'+diff.inSeconds.toString());
+                //    NotificationService().Display(message.username.toString(),message.message.length >15 ? message.message.substring(1,15)+' ...':message.message,message.urlAvatar,message.urlAvatar);
+                //
+                //
 
-                if (diff.inSeconds < 3 && message.idUser != myId){
-                  print('------------------zkkk----------------------------------------'+diff.inSeconds.toString());
-                   NotificationService().Display(message.username.toString(),message.message.length >15 ? message.message.substring(1,15)+' ...':message.message,message.urlAvatar,message.urlAvatar);
-
-
-
-                }
+                //}
 
 
 

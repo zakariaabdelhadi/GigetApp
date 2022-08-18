@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
 
 import '../main.dart';
 import '../model/Message.dart';
 import '../model/userC.dart';
-import '../screens/login.dart';
 import '../utils.dart';
 
 import 'package:rxdart/rxdart.dart';

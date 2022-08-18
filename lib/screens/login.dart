@@ -8,7 +8,6 @@ import 'package:lastgiget/widget/NavBar.dart';
 
 import '../api/Notification_api.dart';
 import '../main.dart';
-//import '../widget/NavBar.dart';
 
 
 

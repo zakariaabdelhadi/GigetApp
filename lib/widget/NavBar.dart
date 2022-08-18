@@ -2,12 +2,14 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:lastgiget/screens/Splash.dart';
 
+import '../api/GradientApi.dart';
 import '../screens/Explore.dart';
 import '../screens/Expose.dart';
 import '../screens/FavoriteScreen.dart';
 import '../screens/Profile.dart';
 import '../screens/add_inserat.dart';
 import '../screens/chatsPage.dart';
+import 'package:swipe_to/swipe_to.dart';
 
 /*
 import '../data.dart';
@@ -18,25 +20,28 @@ import '../screens/add_inserat.dart';
 import '../screens/chatsPage.dart';
 */
 
-
-
-
-
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);
-
-
-
 
   @override
   State<NavBar> createState() => _NavBarState();
 }
 
 class _NavBarState extends State<NavBar> {
-
   int currentTab = 0;
+  void update(int count) {
+    setState(() => currentTab = count);
+
+  }
+
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currectScreen = Explore(); ////// Explore
+  late Widget currectScreen ;
+@override
+  void initState() {
+    super.initState();
+   currectScreen = Explore(update: update,); ////// Explore
+
+}
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +60,7 @@ class _NavBarState extends State<NavBar> {
               MaterialPageRoute(builder: (context) => const AddInserat()),
             );
           },
-          child: Icon(Icons.add, color: Color(0xFF00F0FF)),
+          child: RadiantGradientMask(child: Icon(Icons.add, color: Colors.white)),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -74,64 +79,82 @@ class _NavBarState extends State<NavBar> {
                     minWidth: 40,
                     onPressed: () {
                       setState(() {
-                      currectScreen = Explore();
-
+                        currectScreen = Explore(update: update,);
 
                         currentTab = 0;
                       });
                     },
-                    child: Icon(
+                    child:  currentTab != 0 ? Icon(
                       Icons.home,
-                      color: currentTab == 0 ? Color(0xFF00F0FF) : Colors.black,
+                      color:   Colors.black,
+                    ):RadiantGradientMask(
+                      child: Icon(
+                          Icons.home,
+                          color: Colors.white,
+                        ),
                     ),
+
+
                   ),
                   MaterialButton(
                     minWidth: 40,
                     onPressed: () {
                       setState(() {
-                        currectScreen = ChatsPage();
-                        currentTab = 1;
+                        currectScreen = ChatsPage(update: update,);
+                       currentTab = 1;
                       });
                     },
 
-                    child: SplashView.counter_notif != 0 ?Badge(
-                      position: BadgePosition(bottom: 16, start: 27),
-                        badgeContent: Text(
-                           SplashView.counter_notif.toString(),
-                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                        badgeColor: Colors.red,
-                      padding: EdgeInsets.all(8),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.chat,
-                          color: currentTab == 1 ? Color(0xFF00F0FF) : Colors.black,
-                        ), onPressed: () {
-                          setState(() {
-                            SplashView.counter_notif=0;
+                    child: SplashView.counter_notif != 0
+                        ? Badge(
+                            position: BadgePosition(bottom: 20, start: 30),
+                            badgeContent: Text(
+                              SplashView.counter_notif.toString(),
+                              style: TextStyle(
+                                fontSize: 8,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  ),
+                            ),
+                            badgeColor: Colors.red,
+                            padding: EdgeInsets.all(8),
+                            child:
+                            IconButton(
+                              icon: Icon(
+                                Icons.chat,
+                                color: currentTab == 1
+                                    ? Color(0xFF00F0FF)
+                                    : Colors.black,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  SplashView.counter_notif = 0;
+                                  currectScreen = ChatsPage(update:update,);
+                                currentTab = 1;
+                                });
 
-                          });
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                              const ChatsPage()),
-                        );
-                      },
-                      ),
-                    ):IconButton(
-                      icon: Icon(
-                        Icons.chat,
-                        color: currentTab == 1 ? Color(0xFF00F0FF) : Colors.black,
-                      ), onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                            const ChatsPage()),
-                      );
-                    },
+                              },
+                            ),
+                          )
+                        :currentTab == 1 ?
+
+                    RadiantGradientMask(
+                      child: Icon(
+                              Icons.chat,
+                              color: Colors.white,
+                            ),
+                    ):Icon(
+                      Icons.chat,
+                      color:  Colors.black,
                     ),
+                    // onPressed: () {
+                    //   // Navigator.push(
+                    //   //   context,
+                    //   //   MaterialPageRoute(
+                    //   //       builder: (context) =>
+                    //   //       const ChatsPage()),
+                    //   // );
+                    // },
                   ),
                 ],
               ),
@@ -142,29 +165,48 @@ class _NavBarState extends State<NavBar> {
                     minWidth: 40,
                     onPressed: () {
                       setState(() {
-                        currectScreen = FavoriteScreen();
+                        currectScreen = FavoriteScreen(update: update,);
 
-                        currentTab = 2;
+                   currentTab = 2;
                       });
                     },
-                    child: Icon(
+                    child: currentTab== 2 ?
+                    RadiantGradientMask(
+                      child: Icon(
+                        Icons.favorite_border,
+                        color: Colors.white,
+                      ),
+                    ):Icon(
                       Icons.favorite_border,
-                      color: currentTab == 2 ? Color(0xFF00F0FF) : Colors.black,
+                      color:  Colors.black,
                     ),
+
+
                   ),
                   MaterialButton(
                     minWidth: 40,
-                     onPressed: () {
+                    onPressed: () {
                       setState(() {
-                        currectScreen = Expose();
-                        currentTab = 3;
+                        currectScreen = Expose(update: update,);
+                     currentTab = 3;
                         //    Navigator.pushReplacementNamed(context,"lib/screens/Profile.dart");
                       });
                     },
-                    child: Icon(
+                    child:currentTab == 3 ?
+                    RadiantGradientMask(
+                      child: Icon(
+                        Icons.account_circle_outlined,
+                        color: Colors.white,
+                      ),
+                    ):Icon(
                       Icons.account_circle_outlined,
-                      color: currentTab == 3 ? Color(0xFF00F0FF) : Colors.black,
-                    ),
+                    color:  Colors.black,
+                  ),
+
+                    // Icon(
+                    //   Icons.account_circle_outlined,
+                    //   color: currentTab == 3 ? Color(0xFF00F0FF) : Colors.black,
+                    // ),
                   ),
                 ],
               )

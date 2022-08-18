@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:stream_feed_flutter_core/stream_feed_flutter_core.dart';
 
 class MyGridTile extends StatefulWidget {
-  const MyGridTile({Key? key, required this.name, required this.id_inserat})
+  const MyGridTile({Key? key, required this.name, required this.id_inserat,required this.photo})
       : super(key: key);
   final String name;
   final String id_inserat;
+  final String photo;
+
 
   @override
   State<MyGridTile> createState() => _MyGridTileState();
@@ -85,58 +87,29 @@ class _MyGridTileState extends State<MyGridTile> {
   Future SaveInFavorite() async {
     final id_user = FirebaseAuth.instance.currentUser?.uid;
     final id_inserat = widget.id_inserat;
+    final photo = widget.photo;
+    final name=widget.name;
 
-    createArticleUpload(id_user: id_user, id_inserat: id_inserat);
+    createArticleUpload(id_user: id_user, id_inserat: id_inserat,photo: photo,name:name);
   }
 
   Future createArticleUpload({
     required String? id_user,
     required String id_inserat,
+    required String? photo,
+    required String name,
   }) async {
     bool exist = false;
-    final docUser = FirebaseFirestore.instance.collection("Favorite").doc();
+    final docUser = FirebaseFirestore.instance.collection("Favorite").doc(widget.id_inserat+''+id_user!);
     final json = {
+      'photo':photo,
+      'name':name,
       'id_user': id_user,
       'id_inserat': id_inserat,
     };
-///////////////
-//     StreamSubscription<QuerySnapshot> sub;
-//     List<DocumentSnapshot> snap;
-//
-//     CollectionReference collect =
-//         FirebaseFirestore.instance.collection('Favorite');
-//     sub = collect.snapshots().listen((event) async {
-//       snap = event.docs;
-//
-//       for (int i = 0; i < snap.length; i++) {
-//         if (snap[i]['id_user'].toString() == id_user.toString() &&
-//             snap[i]['id_inserat'].toString() == id_inserat.toString()) {
-//           notinsert();
-//           i = snap.length + 1;
-//           continue ;
-//         }
-//         if (loved==true&&
-//                 i == snap.length - 1 &&
-//                 snap[i]['id_user'].toString() != id_user.toString() ||
-//             snap[i]['id_inserat'].toString() != id_inserat.toString()) {
-//
-//
-//             await docUser.set(json);
-//
-//         }
-//
-//       }
-//
-//     });
-    //////////////////////////////
-    // if (exist == false){
+
        await docUser.set(json);
-    // }else{
-    //   print ('exist schon');
-    // }
+
   }
-  //
-  // void notinsert() {
-  //   print('loved schon !!!!');
-  // }
+
 }

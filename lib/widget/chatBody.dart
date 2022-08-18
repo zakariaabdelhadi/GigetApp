@@ -45,6 +45,7 @@ class ChatBodyWidget extends StatelessWidget {
          height: 75,
          child:   Column(
            children: [
+           // index == 1 ? Divider(color: Colors.black45,thickness: 0.2,):SizedBox(height: 0.000001,),
              ListTile(
                onTap: () {
 
@@ -57,6 +58,23 @@ class ChatBodyWidget extends StatelessWidget {
 
                },
                leading:
+               // Container(
+               // height: 50,
+               // width: 50,
+               // //  color: Color(0xff00F0FF),
+               // decoration: BoxDecoration(
+               // shape: BoxShape.circle,
+               //
+               //
+               //
+               // image:  DecorationImage(
+               // fit: BoxFit.fill,
+               // image: NetworkImage(user.urlAvatar),
+               // ),
+               // ),
+               //
+               //
+               // ),
                CircleAvatar(
                  radius: 25,
                  child: ClipRRect(
@@ -66,10 +84,7 @@ class ChatBodyWidget extends StatelessWidget {
                          imageUrl:user.urlAvatar
                      )),
                ),
-               // CircleAvatar(
-               //   radius: 25,
-               //   backgroundImage: NetworkImage(user.urlAvatar),
-               // ),
+
                title: Text(user.name),
              ),
              Divider(color: Colors.black45,thickness: 0.2,)

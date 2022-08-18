@@ -21,6 +21,23 @@ class MessageWidget extends StatelessWidget {
       mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: <Widget>[
         if (!isMe)
+        // Container(
+        // height: 50,
+        // width: 50,
+        // //  color: Color(0xff00F0FF),
+        // decoration: BoxDecoration(
+        // shape: BoxShape.circle,
+        //
+        //
+        //
+        // image:  DecorationImage(
+        // fit: BoxFit.fill,
+        // image: NetworkImage(user.urlAvatar),
+        // ),
+        // ),
+        //
+        //
+        // ),
           CircleAvatar(
             radius: 18,
             child: ClipRRect(
@@ -54,6 +71,9 @@ class MessageWidget extends StatelessWidget {
     if (minute.length == 1) {
       minute = "0" + minute;
     }
+    if (hour.length == 1) {
+      hour = "0" + hour;
+    }
 
     return Column(
       crossAxisAlignment:
@@ -66,7 +86,7 @@ class MessageWidget extends StatelessWidget {
         ),
         Text(
           hour + ':' + minute,
-          style: TextStyle(fontSize: 8),
+          style: TextStyle(fontSize: 8,color: Colors.black),
         )
       ],
     );

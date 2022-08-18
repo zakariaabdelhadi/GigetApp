@@ -81,10 +81,8 @@ class _SplashViewState extends State<SplashView> {
             image: AssetImage('assets/images/logo.PNG') as ImageProvider,
           ),
         ),
-        // child: Center(
-        //   child: Image.asset('assets/images/logo.PNG'),
-        // ),
-      )),
+
+      ),),
     );
   }
 

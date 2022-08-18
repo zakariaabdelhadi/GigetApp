@@ -9,15 +9,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:lastgiget/model/userC.dart';
 
 import '../model/User.dart';
-import 'Explore.dart';
 import 'chatPage.dart';
-// import 'package:giget/screens/try.dart';
-
-//import 'package:carousel_pro/carousel_pro.dart';
-
-// import '../material_demo_types.dart';
-// import '../model/User.dart';
-// import 'Grid.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key, required String this.id_user}) : super(key: key);
@@ -165,6 +157,25 @@ class _ProfileState extends State<Profile> {
                 // width: double.infinity,
                 child: Row(
                   children: [
+
+                    // Container(
+                    // height: 70,
+                    // width: 70,
+                    // //  color: Color(0xff00F0FF),
+                    // decoration: BoxDecoration(
+                    // shape: BoxShape.circle,
+                    //
+                    //
+                    //
+                    // image:  DecorationImage(
+                    // fit: BoxFit.fill,
+                    // image: NetworkImage(usr.photo),
+                    // ),
+                    // ),
+                    //
+                    //
+                    // ),
+
                     CircleAvatar(
                       radius: 35,
                       child: ClipRRect(
@@ -373,7 +384,7 @@ class _ProfileState extends State<Profile> {
                           borderRadius: BorderRadius.circular(8.0),
                           side: BorderSide(color: Color(0xff80E07E))))),
               onPressed: () {
-                _showOverlay(context);
+                showOverlay(context);
               }),
         )
       ]),
@@ -406,7 +417,7 @@ class _ProfileState extends State<Profile> {
                   padding: const EdgeInsets.all(3.0),
                   child: GestureDetector(
                     onTap: () {
-                      _showOverlay(context);
+                      showOverlay(context);
                       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       //     content: Text(snapshot.data!.docs[index]
                       //         .get('name')
@@ -527,7 +538,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Future<void> _showOverlay(BuildContext context) async {
+  Future<void> showOverlay(BuildContext context) async {
     OverlayState? overlayState = Overlay.of(context);
     late OverlayEntry overlay1;
     OverlayEntry overlay2;

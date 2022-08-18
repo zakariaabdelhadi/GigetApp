@@ -2,14 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:lastgiget/screens/Explore.dart';
+import 'package:lastgiget/screens/FavoriteScreen.dart';
+import 'package:lastgiget/screens/chatsPage.dart';
 
-import '../api/Notification_api.dart';
 import '../model/User.dart';
+import '../widget/NavBar.dart';
 
 class Expose extends StatefulWidget {
-  const Expose({Key? key}) : super(key: key);
-
+  const Expose({Key? key,required this.update}) : super(key: key);
+final ValueChanged<int> update;
   @override
   State<Expose> createState() => _ExposeState();
 }
@@ -35,27 +36,41 @@ class _ExposeState extends State<Expose> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder<User_Model?>(
-        future: readUser(),
-        builder: (cotext, snapshot) {
-          if (snapshot.hasData) {
-            final user = snapshot.data;
-            return user == null
-                ? Center(
-                    child: Text('No user yet'),
-                  )
-                : buildExpose(user);
-          } else {
-            return Center(
-              child: Container(
-                child: CircularProgressIndicator(
-                  color: Color(0xFF00F0FF),
+    return GestureDetector(
+      onHorizontalDragEnd: (DragEndDetails details) {
+        if (details.primaryVelocity! > 0) {
+          widget.update(2);
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) =>  FavoriteScreen(update: widget.update,)),
+          );
+        } else if (details.primaryVelocity! < 0) {
+
+        }
+      },
+      child: Scaffold(
+        body: FutureBuilder<User_Model?>(
+          future: readUser(),
+          builder: (cotext, snapshot) {
+            if (snapshot.hasData) {
+              final user = snapshot.data;
+              return user == null
+                  ? Center(
+                      child: Text('No user yet'),
+                    )
+                  : buildExpose(user);
+            } else {
+              return Center(
+                child: Container(
+                  child: CircularProgressIndicator(
+                    color: Color(0xFF00F0FF),
+                  ),
                 ),
-              ),
-            );
-          }
-        },
+              );
+            }
+          },
+        ),
       ),
     );
 
@@ -84,16 +99,35 @@ class _ExposeState extends State<Expose> {
                 ],
               ),
 
+              Container(
+                height: 100,
+                width: 100,
+                //  color: Color(0xff00F0FF),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
 
-              CircleAvatar(
-                radius: 50,
-                child: ClipRRect(
 
-                    borderRadius: BorderRadius.circular(60),
-                    child: CachedNetworkImage(
-                        imageUrl:usr.photo
-                    )),
+
+                  image:  DecorationImage(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(usr.photo),
+                  ),
+                ),
+
+
               ),
+
+
+              // CircleAvatar(
+              //   radius: 50,
+              //   child: ClipRRect(
+              //
+              //
+              //       borderRadius: BorderRadius.circular(100),
+              //       child: CachedNetworkImage(
+              //           imageUrl:usr.photo
+              //       )),
+              // ),
               SizedBox(
                 height: 15,
               ),
@@ -246,6 +280,7 @@ class _ExposeState extends State<Expose> {
                           ),
                         )
                       ),
+
                       child: FittedBox(
                         //    child: Image.network(snapshot.data!.docs[index].get('photo')),
                         child: CachedNetworkImage(
