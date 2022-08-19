@@ -37,7 +37,7 @@ class ProfileHeaderWidget extends StatelessWidget {
                 //
                 // image:  DecorationImage(
                 // fit: BoxFit.fill,
-                // image: NetworkImage(user.urlAvatar),
+                // image: NetworkImage(photo),
                 // ),
                 // ),
                 //
@@ -48,11 +48,22 @@ class ProfileHeaderWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       SizedBox(height: 10,),
-                      CircleAvatar(
-                        radius: 35,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: CachedNetworkImage(imageUrl: photo)),
+                      Container(
+                      height: 70,
+                      width: 70,
+                      //  color: Color(0xff00F0FF),
+                      decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+
+
+
+                      image:  DecorationImage(
+                      fit: BoxFit.fill,
+                      image: NetworkImage(photo),
+                      ),
+                      ),
+
+
                       ),
                       SizedBox(height: 8),
                       Text(
