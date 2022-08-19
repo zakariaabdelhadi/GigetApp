@@ -53,9 +53,9 @@ void getUserData() {
 
 
    if( FirebaseAuth.instance.currentUser == null){
-     myId='9gne8bt1SkMw8nStunaoyzG78TC2' ;
-     myUsername='zakaria';
-     myUrlAvatar='https://firebasestorage.googleapis.com/v0/b/gigetlastversion.appspot.com/o/zakaria.jfif?alt=media&token=5cc59f72-7f75-4394-a214-2e5feeb4a3f6';
+     // myId='9gne8bt1SkMw8nStunaoyzG78TC2' ;
+     // myUsername='zakaria';
+     // myUrlAvatar='https://firebasestorage.googleapis.com/v0/b/gigetlastversion.appspot.com/o/zakaria.jfif?alt=media&token=5cc59f72-7f75-4394-a214-2e5feeb4a3f6';
    }else{
      final current_user = FirebaseAuth.instance.currentUser!;
      CollectionReference collectionReference =

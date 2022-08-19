@@ -14,7 +14,7 @@ class ProfileHeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     color: Colors.white,
-        height: 180,
+        height: 140,
         padding: EdgeInsets.all(8).copyWith(left: 0),
         child: Column(
           children: [
@@ -23,7 +23,7 @@ class ProfileHeaderWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  width: 25,
+                  width: 35,
                     child: BackButton(color: Colors.black)),
 
                 // Container(
@@ -47,7 +47,7 @@ class ProfileHeaderWidget extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      SizedBox(height: 30,),
+                      SizedBox(height: 10,),
                       CircleAvatar(
                         radius: 35,
                         child: ClipRRect(

@@ -162,7 +162,7 @@ class _Explore_bodyState extends State<Explore_body> {
                               textile = false;
                               activPage = 'search';
                             });
-                            searchControl.clear();
+                          //  searchControl.clear();
 
 
                           }
@@ -494,6 +494,7 @@ class _Explore_bodyState extends State<Explore_body> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data!.docs.length == 0) {
+            print(snapshot.data!.docs.length.toString()+'------------');
             return Center(
               child: Column(
                 children: [
@@ -502,18 +503,21 @@ class _Explore_bodyState extends State<Explore_body> {
                   ),
 
                   Text(
-                      'sorry no articles currently matching your search',textAlign: TextAlign.center,),
+                    'sorry no articles currently matching your search',
+                    textAlign: TextAlign.center,),
                   SizedBox(
                     height: 20,
                   ),
-                  SizedBox(height: 60,width: 60,child:
+                  SizedBox(height: 60, width: 60, child:
                   Image.asset('assets/images/sorry.png'),),
                   SizedBox(
                     height: 30,
                   ),
                   //  Icon(Icons.)
                   GestureDetector(
-                    child: Text('click to show all articles',textAlign: TextAlign.center,style: TextStyle(color: Colors.blue),),
+                    child: Text(
+                      'click to show all articles', textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.blue),),
                     onTap: () {
                       setState(() {
                         activPage = 'all';
@@ -523,7 +527,7 @@ class _Explore_bodyState extends State<Explore_body> {
                 ],
               ),
             );
-          } else {
+          }
             print('dkhel comme memme ------------------');
             return GridView.builder(
               shrinkWrap: true,
@@ -574,7 +578,7 @@ class _Explore_bodyState extends State<Explore_body> {
                 );
               },
             );
-          }
+
         }
 
         if (snapshot.hasError) {

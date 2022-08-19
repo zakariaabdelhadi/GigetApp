@@ -32,7 +32,7 @@ class _LoginState extends State<Login> {
 @override
   void initState() {
   listenStream();
-
+  getUserData();
   super.initState();
   }
   void listenStream() {

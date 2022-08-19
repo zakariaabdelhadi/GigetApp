@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:lastgiget/screens/Explore.dart';
 
 class AddInserat extends StatefulWidget {
   const AddInserat({Key? key}) : super(key: key);
@@ -105,6 +106,16 @@ class _AddInseratState extends State<AddInserat> {
                           pickeledFile = null;
                         });
                         Navigator.pop(context);
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) =>
+                        //            Explore(update:  (int count) {
+                        //   int currentTab;
+                        //   setState(() => currentTab = count);
+                        //
+                        //   })),
+                        // );
                       },
                       child: Text("OK")),
                 ],
