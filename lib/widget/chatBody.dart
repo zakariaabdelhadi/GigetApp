@@ -58,32 +58,32 @@ class ChatBodyWidget extends StatelessWidget {
 
                },
                leading:
-               // Container(
-               // height: 50,
-               // width: 50,
-               // //  color: Color(0xff00F0FF),
-               // decoration: BoxDecoration(
-               // shape: BoxShape.circle,
-               //
-               //
-               //
-               // image:  DecorationImage(
-               // fit: BoxFit.fill,
-               // image: NetworkImage(user.urlAvatar),
-               // ),
-               // ),
-               //
-               //
-               // ),
-               CircleAvatar(
-                 radius: 25,
-                 child: ClipRRect(
+               Container(
+               height: 60,
+               width: 60,
+               //  color: Color(0xff00F0FF),
+               decoration: BoxDecoration(
+               shape: BoxShape.circle,
 
-                     borderRadius: BorderRadius.circular(50),
-                     child: CachedNetworkImage(
-                         imageUrl:user.urlAvatar
-                     )),
+
+
+               image:  DecorationImage(
+               fit: BoxFit.fill,
+               image: NetworkImage(user.urlAvatar),
                ),
+               ),
+
+
+               ),
+               // CircleAvatar(
+               //   radius: 25,
+               //   child: ClipRRect(
+               //
+               //       borderRadius: BorderRadius.circular(50),
+               //       child: CachedNetworkImage(
+               //           imageUrl:user.urlAvatar
+               //       )),
+               // ),
 
                title: Text(user.name),
              ),

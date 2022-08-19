@@ -9,6 +9,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:lastgiget/model/userC.dart';
 
 import '../model/User.dart';
+import 'FulllImage.dart';
 import 'chatPage.dart';
 
 class Profile extends StatefulWidget {
@@ -461,7 +462,15 @@ class _ProfileState extends State<Profile> {
                   padding: const EdgeInsets.all(3.0),
                   child: GestureDetector(
                     onTap: () {
-                      showOverlay(context);
+                      //showOverlay(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DisplayImage(
+                                url: snapshot.data!.docs[index]
+                                    .get('photo')
+                                    .toString())),
+                      );
                       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       //     content: Text(snapshot.data!.docs[index]
                       //         .get('name')
@@ -617,6 +626,11 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 20,
+                ),
+
+                Text('Swap with',textAlign: TextAlign.center,style: TextStyle(fontSize: 16,color: Colors.white),),
                 SizedBox(
                   height: 20,
                 ),

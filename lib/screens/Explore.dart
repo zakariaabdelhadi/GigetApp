@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:lastgiget/screens/FulllImage.dart';
 import 'package:lastgiget/screens/Profile.dart';
 import 'package:lastgiget/widget/MyGridTile.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -655,8 +656,7 @@ Widget myGrid() {
                   onTap: () {
                     if (snapshot.data!.docs[index].get('id_user').toString() !=
                         FirebaseAuth.instance.currentUser!.uid.toString()) {
-                      print(snapshot.data!.docs[index].id.toString() +
-                          '***************************************************************');
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -668,6 +668,7 @@ Widget myGrid() {
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('This is your article')));
+
                     }
                   },
                   child: new GridTile(

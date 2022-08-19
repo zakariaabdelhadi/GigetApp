@@ -100,8 +100,8 @@ class _ExposeState extends State<Expose> {
               ),
 
               Container(
-                height: 100,
-                width: 100,
+                height: 120,
+                width: 120,
                 //  color: Color(0xff00F0FF),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,

@@ -157,6 +157,10 @@ class _NewMessageWidgetState extends State<NewMessageWidget> {
                 SizedBox(
                   height: 20,
                 ),
+                Text('Swap with',textAlign: TextAlign.center,style: TextStyle(fontSize: 16,color: Colors.white),),
+                SizedBox(
+                  height: 10,
+                ),
                 getGridById(FirebaseAuth.instance!.currentUser!.uid!),
               ],
             ),
