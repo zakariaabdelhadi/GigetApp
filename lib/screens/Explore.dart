@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:lastgiget/main.dart';
 import 'package:lastgiget/screens/FulllImage.dart';
 import 'package:lastgiget/screens/Profile.dart';
 import 'package:lastgiget/widget/MyGridTile.dart';
@@ -154,6 +155,7 @@ class _Explore_bodyState extends State<Explore_body> {
                           color: Color(0xFF00F0FF),
                         ),
                         onPressed: () {
+                          print(myId+'/////////////'+myUsername);
                           if(searchControl.text != ''){
                             setState(() {
                               games = false;

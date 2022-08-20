@@ -68,6 +68,7 @@ class _LoginState extends State<Login> {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              getUserData();
               return NavBar();
             } else {}
             return login_screen();

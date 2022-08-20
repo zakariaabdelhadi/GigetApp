@@ -27,6 +27,8 @@ class _SplashViewState extends State<SplashView> {
   }
 
   _changeScreen() {
+    getUserData();
+
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => Login()),
@@ -37,7 +39,7 @@ class _SplashViewState extends State<SplashView> {
   void initState() {
     super.initState();
     _startDelay();
-    //getUserData();
+    getUserData();
 
    // initialiseLocalNotif();
 
